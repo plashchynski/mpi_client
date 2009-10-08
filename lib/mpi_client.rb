@@ -9,6 +9,7 @@ require 'mpi_client/mpi_response'
 
 class MPIClient
   CLIENT_METHODS = %w(create_account get_account_info update_account delete_account enrolled)
+
   def initialize(server_url)
     @connection = Network::Connection.new(server_url)
   end
@@ -17,7 +18,7 @@ class MPIClient
     submit_request(method, args.first) if CLIENT_METHODS.include?(method.to_s)
   end
 
-private
+  private
   def submit_request(request_type, options)
     parse_response(@connection.post(prepare_request_data(request_type, options)))
   end

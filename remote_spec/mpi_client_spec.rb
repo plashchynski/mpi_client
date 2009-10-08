@@ -1,9 +1,8 @@
 require File.dirname(__FILE__) + '/../lib/mpi_client.rb'
-require 'ruby-debug'
 
 MPI_SERVER_URL = 'http://192.168.65.11/xml'
 
-describe "MPIClient" do
+describe "MPIClient requests" do
   before(:each) do
     @mpi_client = MPIClient.new(MPI_SERVER_URL)
   end
@@ -30,12 +29,20 @@ describe "MPIClient" do
 
     @mpi_client.update_account(options).account_id.should == account_id
     @mpi_client.get_account_info({ :account_id => account_id }).site_name.should == options[:site_name]
-    @mpi_client.delete_account({ :account_id => account_id }).account_id == account_id
+    @mpi_client.delete_account({ :account_id => account_id }).account_id.should  == account_id
   end
   
-  it "should check card is enrolled and not enrolled" do
-    account_id = '0'*32
-    @mpi_client.enrolled({:account_id=>account_id, :card_number=>'4012001037141112'}).data[:status].should == 'Y'
-    @mpi_client.enrolled({:account_id=>account_id, :card_number=>'4012001038443335'}).data[:status].should == 'N'
+  describe "card enrollment check" do
+    it "should return Y if card is enrolled" do
+      enrollment_response('4012001037141112').status.should == 'Y'
+    end
+
+    it "should return Y if card is enrolled" do
+      enrollment_response('4012001038443335').status.should == 'N'
+    end
+
+    def enrollment_response(card_number)
+      @mpi_client.enrolled({:account_id=> '0'*32, :card_number=> card_number})
+    end
   end
 end
