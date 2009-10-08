@@ -29,11 +29,11 @@ describe "MPIClient" do
     end
   end
 
-  describe "account_info" do
+  describe "get account_info" do
     it "should submit get_account_info request to server" do
       account_id = 'b1adc7af83a302be94891cf17014c98a'
       @client.should_receive(:submit_request).with(:get_account_info, {:account_id => account_id}).and_return(MPIResponse.new(@options))
-      @client.account_info(account_id).data.should == @options
+      @client.get_account_info(:account_id => account_id).data.should == @options
     end
   end
 
@@ -41,7 +41,7 @@ describe "MPIClient" do
     it "should submit update_account request to server" do
       account_id = 'b1adc7af83a302be94891cf17014c98a'
       @client.should_receive(:submit_request).with(:update_account, @options.merge({:account_id => account_id})).and_return(MPIResponse.new({:account_id => account_id}))
-      @client.update_account(account_id, @options).data.should == {:account_id => account_id}
+      @client.update_account(@options.update(:account_id => account_id)).data.should == {:account_id => account_id}
     end
   end
 
@@ -49,7 +49,7 @@ describe "MPIClient" do
     it "should submit delete_account request to server" do
       account_id = 'b1adc7af83a302be94891cf17014c98a'
       @client.should_receive(:submit_request).with(:delete_account, {:account_id => account_id}).and_return(MPIResponse.new({:account_id => account_id}))
-      @client.delete_account(account_id).data.should == {:account_id => account_id}
+      @client.delete_account(:account_id => account_id).data.should == {:account_id => account_id}
     end
   end
   

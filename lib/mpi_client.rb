@@ -8,28 +8,13 @@ require 'mpi_client/option_translator'
 require 'mpi_client/mpi_response'
 
 class MPIClient
+  CLIENT_METHODS = %w(create_account get_account_info update_account delete_account enrolled)
   def initialize(server_url)
     @connection = Network::Connection.new(server_url)
   end
 
-  def create_account(options)
-    submit_request(:create_account, options)
-  end
-
-  def account_info(account_id)
-    submit_request(:get_account_info, {:account_id => account_id})
-  end
-
-  def update_account(account_id, options)
-    submit_request(:update_account, options.merge({:account_id => account_id}))
-  end
-
-  def delete_account(account_id)
-    submit_request(:delete_account, {:account_id => account_id})
-  end
-  
-  def enrolled(options)
-    submit_request(:enrolled, options)
+  def method_missing(method, *args)
+    submit_request(method, args.first) if CLIENT_METHODS.include?(method.to_s)
   end
 
 private

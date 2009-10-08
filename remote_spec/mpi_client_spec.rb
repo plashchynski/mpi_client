@@ -1,11 +1,15 @@
 require File.dirname(__FILE__) + '/../lib/mpi_client.rb'
+require 'ruby-debug'
 
 MPI_SERVER_URL = 'http://192.168.65.11/xml'
 
 describe "MPIClient" do
   before(:each) do
     @mpi_client = MPIClient.new(MPI_SERVER_URL)
-    @options = {
+  end
+
+  it "should create account, update, get_info and delete" do
+    options = {
       :id           => 'some id',
       :site_name    => 'site name',
       :url          => 'http://siteurl/',
@@ -19,15 +23,14 @@ describe "MPIClient" do
       :client_url   => 'http://www.client.com/',
       :term_url     => 'http://www.term.com/',
     }
-  end
 
-  it "should create account, update, get_info and delete" do
-    account_id = @mpi_client.create_account(@options).data[:account_id]
-    account_id.should_not be_empty
-    site_name = 'new site name'
-    @mpi_client.update_account(account_id, @options.merge({:site_name => site_name})).data[:account_id].should == account_id
-    @mpi_client.account_info(account_id).data[:site_name].should == site_name
-    @mpi_client.delete_account(account_id).data[:account_id] == account_id
+    account_id = @mpi_client.create_account(options).account_id
+
+    options.merge!({:account_id => account_id, :site_name => 'new_site_name'})
+
+    @mpi_client.update_account(options).account_id.should == account_id
+    @mpi_client.get_account_info({ :account_id => account_id }).site_name.should == options[:site_name]
+    @mpi_client.delete_account({ :account_id => account_id }).account_id == account_id
   end
   
   it "should check card is enrolled and not enrolled" do
