@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name         = 'MPIClient'
+  s.name         = 'mpi_client'
   s.version      = '0.0.1'
   s.authors      = ['Dmitry Plashchynski', 'Evgeniy Sugakov']
   s.homepage     = 'http://github.com/plashchynski/mpi_client/'
