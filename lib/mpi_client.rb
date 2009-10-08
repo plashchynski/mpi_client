@@ -50,14 +50,17 @@ private
   end
 
   def parse_response(response_data)
-    response = MPIResponse.new
     doc = Nokogiri::XML(response_data)
+
     if error = doc.xpath("//Error").first
-      response.error_message = error.text
-      response.error_code    = error[:code]
+      response = {
+        :error_message => error.text,
+        :error_code    => error[:code]
+      }
     else
-      response.data = Hash[*doc.xpath("//Transaction/*").collect{|a| [OptionTranslator.to_client(a.name.to_sym), a.text] }.flatten]
+      response = Hash[*doc.xpath("//Transaction/*").collect{|a| [OptionTranslator.to_client(a.name.to_sym), a.text] }.flatten]
     end
-    response
+
+    MPIResponse.new(response)
   end
 end

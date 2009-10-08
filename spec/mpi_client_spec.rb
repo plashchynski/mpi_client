@@ -88,7 +88,8 @@ describe "MPIClient" do
       }
       result = @client.send(:parse_response, response)
       result.data.should == result_data
-      result.success?.should be_true
+
+      result.should be_success
     end
 
     it "should return not success response, when response data contain Error field." do
@@ -99,7 +100,7 @@ describe "MPIClient" do
       RESPONSE
 
       result = @client.send(:parse_response, response)
-      result.success?.should be_false
+      result.should_not be_success
       result.error_message.should == 'Format XML-request is not valid'
       result.error_code.should    == 'C2'
     end
