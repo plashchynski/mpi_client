@@ -29,4 +29,10 @@ describe "MPIClient" do
     @mpi_client.account_info(account_id).data[:site_name].should == site_name
     @mpi_client.delete_account(account_id).data[:account_id] == account_id
   end
+  
+  it "should check card is enrolled and not enrolled" do
+    account_id = '0'*32
+    @mpi_client.enrolled({:account_id=>account_id, :card_number=>'4012001037141112'}).data[:status].should == 'Y'
+    @mpi_client.enrolled({:account_id=>account_id, :card_number=>'4012001038443335'}).data[:status].should == 'N'
+  end
 end

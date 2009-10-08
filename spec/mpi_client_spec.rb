@@ -52,6 +52,15 @@ describe "MPIClient" do
       @client.delete_account(account_id).data.should == {:account_id => account_id}
     end
   end
+  
+  describe "enrolled" do
+    it "should submit enrolled request to server" do
+      account_id  = '0'*32
+      card_number = '4012001037141112'
+      @client.should_receive(:submit_request).with(:enrolled, {:account_id => account_id, :card_number => card_number}).and_return(MPIResponse.new({:status => 'Y'}))
+      @client.enrolled({:account_id => account_id, :card_number=>card_number}).data.should == {:status => 'Y'}
+    end
+  end
 
   describe "prepare_request_data" do
     it "should build xml from request_type and options" do

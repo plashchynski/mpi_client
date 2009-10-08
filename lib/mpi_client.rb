@@ -27,6 +27,10 @@ class MPIClient
   def delete_account(account_id)
     submit_request(:delete_account, {:account_id => account_id})
   end
+  
+  def enrolled(options)
+    submit_request(:enrolled, options)
+  end
 
 private
   def submit_request(request_type, options)

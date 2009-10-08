@@ -1,5 +1,5 @@
 class OptionTranslator
-    Options_mathing = {
+    OPTION_MAP = {
       :id           => :Id,
       :site_name    => :Name,
       :url          => :URL,
@@ -15,13 +15,15 @@ class OptionTranslator
       :client_url   => :ClientURL,
       :term_url     => :TermURL,
       :account_id   => :AccountId,
-      :error        => :Error
+      :error        => :Error,
+      :card_number  => :CardNumber,
+      :status       => :status
     }
   def self.to_client(option)
-    Options_mathing.invert[option]
+    OPTION_MAP.invert[option]
   end
 
   def self.to_server(option)
-    Options_mathing[option]
+    OPTION_MAP[option]
   end
 end

@@ -1,9 +1,8 @@
 require File.dirname(__FILE__) + '/../lib/mpi_client.rb'
 
 describe "OptionTranslator" do
-  before(:each) do
-    @options_matching = {
-      :id           => :Id,
+  it "should translate options" do
+    { :id           => :Id,
       :site_name    => :Name,
       :url          => :URL,
       :cert_subject => :IP,
@@ -18,14 +17,9 @@ describe "OptionTranslator" do
       :client_url   => :ClientURL,
       :term_url     => :TermURL,
       :account_id   => :AccountId
-    }
-  end
-
-  it "should translate options" do
-    @options_matching.each do |client_option, server_option|
+    }.each do |client_option, server_option|
       OptionTranslator.to_client(server_option).should == client_option
       OptionTranslator.to_server(client_option).should == server_option
     end
   end
 end
-
