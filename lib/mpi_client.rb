@@ -15,18 +15,19 @@ class MPIClient
   end
 
   def method_missing(method, *args)
-    submit_request(method, args.first) if CLIENT_METHODS.include?(method.to_s)
+    submit_request(method, *args) if CLIENT_METHODS.include?(method.to_s)
   end
 
   private
-  def submit_request(request_type, options)
-    parse_response(@connection.post(prepare_request_data(request_type, options)))
+  def submit_request(request_type, *args)
+    parse_response(@connection.post(prepare_request_data(request_type, *args)))
   end
 
-  def prepare_request_data(request_type, options)
+  def prepare_request_data(request_type, options, transaction_attrs = {})
+    options = options.dup
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
       xml.REQUEST(:type => request_type) do |xml|
-        xml.Transaction do |xml|
+        xml.Transaction(transaction_attrs) do |xml|
           options.each { |k,v|  xml.send(OptionTranslator.to_server(k), v) }
         end
       end

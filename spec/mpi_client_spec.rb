@@ -18,14 +18,20 @@ describe "MPIClient" do
     options = { :id => 'one', :account_id => 'account id' }
     request_type = :some_type
     result = @client.send(:prepare_request_data, request_type, options)
-    result.should match %r{<REQUEST\ type="#{request_type}">}
+    result.should match %r{<REQUEST type="#{request_type}">}
 
     options.each do |k,v| 
       key = OptionTranslator.to_server(k)
       result.should match %r{<#{key}>#{v}</#{key}>}
     end
   end
-
+  
+  it "should prepare transaction attributes" do
+    id = 10
+    result = @client.send(:prepare_request_data, 'any', {}, {:id => id} )
+    result.should match %r{<Transaction id="#{id}".?>}
+  end
+  
   it "should parse input XML to MPIResponse and convert keys to client format" do
     response = <<-RESPONSE
     <REQUEST type=\"update_account\">

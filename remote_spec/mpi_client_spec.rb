@@ -37,7 +37,7 @@ describe "MPIClient requests" do
       enrollment_response('4012001037141112').status.should == 'Y'
     end
 
-    it "should return Y if card is enrolled" do
+    it "should return N if card isn't enrolled" do
       enrollment_response('4012001038443335').status.should == 'N'
     end
 
@@ -45,4 +45,5 @@ describe "MPIClient requests" do
       @mpi_client.enrolled({:account_id=> '0'*32, :card_number=> card_number})
     end
   end
+  
 end
