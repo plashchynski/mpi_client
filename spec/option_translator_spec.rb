@@ -2,15 +2,15 @@ require File.dirname(__FILE__) + '/../lib/mpi_client.rb'
 
 describe "OptionTranslator" do
   it "should translate options" do
-    { :id           => :Id,
+    { :merchant_id  => :Id,
       :site_name    => :Name,
-      :url          => :URL,
-      :cert_subject => :IP,
+      :site_url     => :URL,
+      :certificate_subject => :IP,
       :acquirer_bin => :AcquirerBIN,
       :country_code => :CountryCode,
       :password     => :Password,
-      :pub_cert     => :PublicCertificate,
-      :priv_key     => :PrivateKey,
+      :certificate  => :PublicCertificate,
+      :private_key  => :PrivateKey,
       :directory_server_url => :DirectoryServerURL,
       :brand        => :CardType,
       :response_url => :ResponseURL,

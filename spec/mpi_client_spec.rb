@@ -15,7 +15,7 @@ describe "MPIClient" do
   end
 
   it "should prepare request data from request_type and options" do
-    options = { :id => 'one', :account_id => 'account id' }
+    options = { :merchant_id => 'one', :account_id => 'account id' }
     request_type = :some_type
     result = @client.send(:prepare_request_data, request_type, options)
     result.should match %r{<REQUEST type="#{request_type}">}
@@ -46,7 +46,7 @@ describe "MPIClient" do
 
     result.data.should == {
       :account_id     => '9933fab999fd3fd0651df2c73bd6f12e',
-      :id             => '231'
+      :merchant_id    => '231'
     }
     result.should be_success
   end
