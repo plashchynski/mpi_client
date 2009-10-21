@@ -1,14 +1,16 @@
 require 'rubygems'
 require 'network'
 require 'nokogiri'
+require 'active_support/core_ext/module/attribute_accessors'
 
 $:.unshift File.dirname(__FILE__)
 
 require 'mpi_client/option_translator'
 require 'mpi_client/mpi_response'
+require 'mpi_client/request/verification'
 
 class MPIClient
-  CLIENT_METHODS = %w(create_account get_account_info update_account delete_account enrolled)
+  CLIENT_METHODS = %w(create_account get_account_info update_account delete_account verify)
 
   def initialize(server_url)
     @connection = Network::Connection.new(server_url)
