@@ -1,6 +1,66 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "VerificationRequest" do
+describe "Response" do
+  describe "parse method" do
+    it "should return Response instance" do
+      MPI::Response.parse('').should be_an_instance_of(MPI::Response)
+    end
+  end
+
+  context 'xml contain sucessful response' do
+    before(:each) do
+      @response = MPI::Response.new('')
+      @response.stub!(:xml => <<-XML)
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response type="vereq">
+            <Transaction id="33557" status="Y">
+                <URL>http://3ds/client/xxx</URL>
+            </Transaction>
+        </Response>
+        XML
+      @response.parse
+    end
+
+    it "should be successful if xml does not contain Error item" do
+      @response.should be_successful
+    end
+
+    it "should have 'Y' status" do
+      @response.status.should == 'Y'
+    end
+
+    it "should have url" do
+      @response.url.should == 'http://3ds/client/xxx'
+    end
+  end
+
+  context "xml contains Error node" do
+    before(:each) do
+      @response = MPI::Response.new('')
+      @response.stub!(:xml => <<-XML)
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response type="create_account">
+          <Error code="C5">Wrong data</Error>
+        </Response>
+        XML
+      @response.parse
+    end
+
+    it "should not be successful if xml contains Error item" do
+      @response.should_not be_successful
+    end
+
+    it "should contain error message" do
+      @response.error_message.should match /Wrong data/
+    end
+
+    it "should contain error code" do
+      @response.error_code.should == 'C5'
+    end
+  end
+end
+
+describe "Request" do
   before(:each) do
     options = {
       :account_id       => '100',
@@ -23,14 +83,14 @@ describe "VerificationRequest" do
     it "should return MPIResponse" do
       @request.should_receive(:build_xml).ordered
       @request.should_receive(:post).ordered
-      MPIResponse.should_receive(:parse)
+      MPI::Response.should_receive(:parse)
       @request.process
     end
 
     it "should invoke MPIResponse parse with xml response" do
       @request.stub!(:build_xml => 'builded xml')
       @request.should_receive(:post).with('builded xml').and_return('xml response')
-      MPIResponse.should_receive(:parse).with("xml response")
+      MPI::Response.should_receive(:parse).with("xml response")
       @request.process
     end
   end
