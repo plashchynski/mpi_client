@@ -1,15 +1,17 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Response" do
-  describe "parse method" do
-    it "should return Response instance" do
-      MPI::Response.parse('').should be_an_instance_of(MPI::Response)
-    end
+
+  it "should return Response instance" do
+    MPI::Response.parse('').should be_an_instance_of(MPI::Response)
+  end
+
+  before(:each) do
+    @response = MPI::Response.new('')
   end
 
   context 'xml contain sucessful response' do
     before(:each) do
-      @response = MPI::Response.new('')
       @response.stub!(:xml => <<-XML)
         <?xml version="1.0" encoding="UTF-8"?>
         <Response type="vereq">
@@ -36,7 +38,6 @@ describe "Response" do
 
   context "xml contains Error node" do
     before(:each) do
-      @response = MPI::Response.new('')
       @response.stub!(:xml => <<-XML)
         <?xml version="1.0" encoding="UTF-8"?>
         <Response type="create_account">

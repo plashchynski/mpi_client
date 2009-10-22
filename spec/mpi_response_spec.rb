@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/mpi_client.rb'
+require File.dirname(__FILE__) + '/spec_helper'
 
 describe "MPIResponse" do
   it "should contain data" do
