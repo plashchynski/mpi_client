@@ -35,6 +35,24 @@ describe "Verification::Response" do
     end
   end
 
+  context 'xml contains unexpected response' do
+    before(:each) do
+      @response.stub!(:xml => <<-XML)
+          <xml>hello</xml>
+        XML
+      @response.parse
+    end
+
+    it "should not be successful if xml contains Error item" do
+      @response.should_not be_successful
+    end
+
+    it "should contain error message and empty error code" do
+      @response.error_message.should == 'Unknown response was received from MPI'
+      @response.error_code.should == ''
+    end
+  end
+
   context "xml contains Error node" do
     before(:each) do
       @response.stub!(:xml => <<-XML)
@@ -46,7 +64,7 @@ describe "Verification::Response" do
       @response.parse
     end
 
-    it "should not be successful if xml contains Error item" do
+    it "should not be successful" do
       @response.should_not be_successful
     end
 

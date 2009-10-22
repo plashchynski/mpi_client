@@ -3,14 +3,10 @@ require 'network'
 require 'nokogiri'
 require 'active_support/core_ext/module/attribute_accessors'
 
-$:.unshift File.dirname(__FILE__)
+require 'mpi'
 
-require 'mpi_client/mpi'
-require 'mpi_client/verification/request'
-require 'mpi_client/verification/response'
-
-require 'mpi_client/option_translator'
-require 'mpi_client/mpi_response'
+require 'mpi/option_translator'
+require 'mpi/response'
 
 class MPIClient
   CLIENT_METHODS = %w(create_account get_account_info update_account delete_account verify)
