@@ -10,6 +10,7 @@ class OptionTranslator
     :certificate  => :PublicCertificate,
     :private_key     => :PrivateKey,
     :directory_server_url => :DirectoryServerURL,
+    :country_code => :CountryCode,
     :brand        => :CardType,
     :response_url => :ResponseURL,
     :client_url   => :ClientURL,
