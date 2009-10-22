@@ -5,9 +5,12 @@ require 'active_support/core_ext/module/attribute_accessors'
 
 $:.unshift File.dirname(__FILE__)
 
+require 'mpi_client/mpi'
+require 'mpi_client/verification/request'
+require 'mpi_client/verification/response'
+
 require 'mpi_client/option_translator'
 require 'mpi_client/mpi_response'
-require 'mpi_client/request/verification'
 
 class MPIClient
   CLIENT_METHODS = %w(create_account get_account_info update_account delete_account verify)
@@ -30,11 +33,12 @@ class MPIClient
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
       xml.REQUEST(:type => request_type) do |xml|
         xml.Transaction(transaction_attrs) do |xml|
-          options.each { |k,v|  xml.send(OptionTranslator.to_server(k), v) }
+          options.each do |k,v|  
+            xml.send(OptionTranslator.to_server(k), v)
+          end
         end
       end
     end
-
     builder.to_xml
   end
 
