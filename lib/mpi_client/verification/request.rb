@@ -1,4 +1,4 @@
-module MPI
+module MPIClient
   module Verification
     class Request
       PARAMS_MAP = {
@@ -27,7 +27,7 @@ module MPI
 
       private
       def post(xml_request)
-        Network.post(MPI.server_url, xml_request)
+        Network.post(MPIClient.server_url, xml_request)
       end
 
       def build_xml

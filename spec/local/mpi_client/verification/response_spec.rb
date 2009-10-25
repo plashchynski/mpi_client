@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe "Verification::Response" do
   it "should return Response instance" do
-    MPI::Verification::Response.parse('').should be_an_instance_of(MPI::Verification::Response)
+    Verification::Response.parse('').should be_an_instance_of(Verification::Response)
   end
 
   before(:each) do
-    @response = MPI::Verification::Response.new('')
+    @response = Verification::Response.new('')
   end
 
   context 'xml contain sucessful response' do

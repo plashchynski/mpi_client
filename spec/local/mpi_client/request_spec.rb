@@ -1,13 +1,13 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "MPIClient" do
   before(:each) do
-    @client = MPIClient.new('http://127.0.0.1/3ds/')
+    @client = Request.new
   end
 
   describe "requests" do
     it "should call submit_request and return it's result" do
-      response = MPIResponse.new({:account_id => 'b1adc7af83a302be94891cf17014c98a'})
+      response = Response.new({:account_id => 'b1adc7af83a302be94891cf17014c98a'})
       options = mock
       @client.should_receive(:submit_request).with(:create_account, options).and_return(response)
       @client.create_account(options).should == response

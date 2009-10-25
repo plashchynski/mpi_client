@@ -16,28 +16,28 @@ describe "Verification::Request" do
 
     @transaction_id = '123456'
 
-    @request = MPI::Verification::Request.new(options, @transaction_id)
+    @request = Verification::Request.new(options, @transaction_id)
   end
 
   describe "process" do
     it "should return MPIResponse" do
       @request.should_receive(:build_xml).ordered
       @request.should_receive(:post).ordered
-      MPI::Verification::Response.should_receive(:parse)
+      Verification::Response.should_receive(:parse)
       @request.process
     end
 
     it "should invoke MPIResponse parse with xml response" do
       @request.stub!(:build_xml => 'builded xml')
       @request.should_receive(:post).with('builded xml').and_return('xml response')
-      MPI::Verification::Response.should_receive(:parse).with("xml response")
+      Verification::Response.should_receive(:parse).with("xml response")
       @request.process
     end
   end
 
   describe "post" do
     it "should post data with connection" do
-      MPI.stub!(:server_url => 'http://mpi-url/')
+      MPIClient.stub!(:server_url => 'http://mpi-url/')
       Network.should_receive(:post).with('http://mpi-url/', 'xml request')
 
       @request.send(:post, 'xml request')

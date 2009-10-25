@@ -4,13 +4,13 @@ MPI.server_url = 'http://192.168.65.11/xml'
 
 describe 'test of verification request' do
   it "should have status 'N'" do
-    req = MPI::Verification::Request.new(request_params(:card_number => '4200000000000000'), '1')
+    req = Verification::Request.new(request_params(:card_number => '4200000000000000'), '1')
     response = req.process
     response.status.should == 'N'
   end
 
   it "should return 'Y' and url" do
-    req = MPI::Verification::Request.new(request_params(:card_number => '4012001037141112'), '2')
+    req = Verification::Request.new(request_params(:card_number => '4012001037141112'), '2')
     response = req.process
     response.status.should == 'Y'
     response.url.should_not be_empty

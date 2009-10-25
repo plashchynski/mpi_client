@@ -1,4 +1,4 @@
-module MPI
+module MPIClient
   module Verification
     class Response
       attr_reader :xml, :error_code, :error_message, :status, :url

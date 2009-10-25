@@ -1,8 +1,7 @@
-require File.dirname(__FILE__) + '/../spec_helper'
-
-describe "OptionTranslator" do
-  it "should translate options" do
-    { :merchant_id  => :Id,
+module MPIClient
+  class OptionTranslator
+    OPTION_MAP = {
+      :merchant_id  => :Id,
       :site_name    => :Name,
       :site_url     => :URL,
       :certificate_subject => :IP,
@@ -10,16 +9,25 @@ describe "OptionTranslator" do
       :country_code => :CountryCode,
       :password     => :Password,
       :certificate  => :PublicCertificate,
-      :private_key  => :PrivateKey,
+      :private_key     => :PrivateKey,
       :directory_server_url => :DirectoryServerURL,
+      :country_code => :CountryCode,
       :brand        => :CardType,
       :response_url => :ResponseURL,
       :client_url   => :ClientURL,
       :term_url     => :TermURL,
-      :account_id   => :AccountId
-    }.each do |client_option, server_option|
-      OptionTranslator.to_client(server_option).should == client_option
-      OptionTranslator.to_server(client_option).should == server_option
+      :account_id   => :AccountId,
+      :error        => :Error,
+      :card_number  => :CardNumber,
+      :status       => :status
+    }
+
+    def self.to_client(option)
+      OPTION_MAP.invert[option]
+    end
+
+    def self.to_server(option)
+      OPTION_MAP[option]
     end
   end
 end
