@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-MPI.server_url = 'http://192.168.65.11/xml'
-
 describe 'test of verification request' do
   it "should have status 'N'" do
     req = Verification::Request.new(request_params(:card_number => '4200000000000000'), '1')
