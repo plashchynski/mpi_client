@@ -62,5 +62,6 @@ describe "MPIClient" do
     result.should_not be_success
     result.error_message.should == 'Format XML-request is not valid'
     result.error_code.should    == 'C2'
+    result.errors.should == {:base => 'Format XML-request is not valid'}
   end
 end

@@ -34,6 +34,7 @@ module MPIClient
 
       if error = doc.xpath("//Error").first
         response = {
+          :errors        => ErrorParser.parse(error.text),
           :error_message => error.text,
           :error_code    => error[:code]
         }
