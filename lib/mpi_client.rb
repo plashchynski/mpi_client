@@ -10,5 +10,6 @@ module MPIClient
   autoload :OptionTranslator,   'mpi_client/option_translator'
   autoload :Request,            'mpi_client/request'
   autoload :Response,           'mpi_client/response'
+  autoload :ErrorParser,        'mpi_client/error_parser'
   autoload :Verification,       'mpi_client/verification'
 end

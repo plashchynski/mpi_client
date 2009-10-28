@@ -9,7 +9,7 @@ module MPIClient
       :country_code => :CountryCode,
       :password     => :Password,
       :certificate  => :PublicCertificate,
-      :private_key     => :PrivateKey,
+      :private_key  => :PrivateKey,
       :directory_server_url => :DirectoryServerURL,
       :country_code => :CountryCode,
       :brand        => :CardType,
