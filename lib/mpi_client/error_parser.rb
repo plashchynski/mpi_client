@@ -1,8 +1,12 @@
 module MPIClient
   module ErrorParser
-    def self.parse(error_message)
+    def self.get_base_message(error_message, error_code)
+      error_message[/^(.*?)(?:\ \(|$)/, 1] unless error_code == 'C5'
+    end
+
+    def self.parse(error_message, error_code)
       result = Hash.new
-      result[:base] = error_message[/^(.*?)(?:\ \(|$)/, 1]
+      result[:base] = get_base_message(error_message, error_code)
       error_message.scan(/(?:\ |\()([A-Z].*?)\./) do |error_field, second_field|
         field_name = error_field[/^.*\ \[(.*)\].*$/, 1]
         error_str  = error_field.gsub(/\ \[.*\]/,'')

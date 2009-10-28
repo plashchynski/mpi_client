@@ -34,9 +34,9 @@ module MPIClient
 
       if error = doc.xpath("//Error").first
         response = {
-          :errors        => ErrorParser.parse(error.text),
           :error_message => error.text,
-          :error_code    => error[:code]
+          :error_code    => error[:code],
+          :errors        => ErrorParser.parse(error.text, error[:code]),
         }
       else
         response = Hash[*doc.xpath("//Transaction/*").collect{|a| [OptionTranslator.to_client(a.name.to_sym), a.text] }.flatten]
