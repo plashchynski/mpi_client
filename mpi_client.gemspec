@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.email        = 'plashchynski@gmail.com'
   s.require_path = "lib"
   s.has_rdoc     = false
-  s.files        =  ["lib/mpi_client/option_translator.rb", "lib/mpi_client/request.rb", "lib/mpi_client/response.rb", "lib/mpi_client/verification/request.rb", "lib/mpi_client/verification/response.rb", "lib/mpi_client/verification.rb", "lib/mpi_client.rb"]
+  s.files        =  ["lib/mpi_client/option_translator.rb", "lib/mpi_client/request.rb", "lib/mpi_client/response.rb", "lib/mpi_client/error_parser.rb", "lib/mpi_client/verification/request.rb", "lib/mpi_client/verification/response.rb", "lib/mpi_client/verification.rb", "lib/mpi_client.rb"]
   s.rubygems_version = "1.3.0"
   s.add_dependency("nokogiri", [">= 1.3.2"])
   s.add_dependency("alovak-network", [">= 1.1.2"])
