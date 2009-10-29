@@ -5,6 +5,7 @@ require 'active_support/core_ext/module/attribute_accessors'
 
 module MPIClient
   mattr_accessor :server_url
+  mattr_accessor :logger
   self.server_url = 'http://mpi.server.com/'
 
   autoload :OptionTranslator,   'mpi_client/option_translator'

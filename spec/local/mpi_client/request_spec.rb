@@ -65,12 +65,32 @@ describe "MPIClient" do
     result.errors.should == {:base => 'Format XML-request is not valid'}
   end
 
-  describe "logger=" do
-    it "should set logger" do
-      client, logger = mock, mock
-      Network::Connection.stub(:new).and_return(client)
-      client.should_receive(:logger=).with(logger)
-      client.logger = logger
+  it "should set logger" do
+    connection, logger = mock, mock
+    Network::Connection.stub(:new).and_return(connection)
+    MPIClient.should_receive(:logger).twice.and_return(logger)
+    connection.should_receive(:logger=).with(logger)
+    connection.should_receive(:request_filter=)
+    connection.should_receive(:response_filter=)
+    Request.new
+  end
+
+  describe "filter_xml_data" do
+    it "should replace fields in XML" do
+      xml = <<-XML
+        <xml>
+          <user>secret</user>
+          <password>password</password>
+          <data>not secret</data>
+        </xml>
+      XML
+
+      xml = @client.send(:filter_xml_data, xml, :user, :password)
+
+
+      xml.should =~ /<user>\[FILTERED\]<\/user>/
+      xml.should =~ /<password>\[FILTERED\]<\/password>/
+      xml.should =~ /<data>not secret<\/data>/
     end
   end
 end

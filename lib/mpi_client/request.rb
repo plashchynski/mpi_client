@@ -1,13 +1,12 @@
 module MPIClient
   class Request
-    CLIENT_METHODS = %w(create_account get_account_info update_account delete_account verify)
+    FILTERED_FIELDS = %w(Password PublicCertificate PrivateKey)
+    CLIENT_METHODS  = %w(create_account get_account_info update_account delete_account verify)
 
     def initialize
       @connection = Network::Connection.new(MPIClient.server_url)
-    end
-
-    def logger=(logger)
-      @connection.logger = logger
+      @connection.logger = MPIClient.logger if MPIClient.logger
+      set_logger_filters
     end
 
     def method_missing(method, *args)
@@ -15,6 +14,25 @@ module MPIClient
     end
 
     private
+    def set_logger_filters
+      filter = lambda {|data| filter_xml_data(data, FILTERED_FIELDS) }
+      @connection.request_filter = @connection.response_filter = filter
+    end
+
+    def filter_xml_data(request, *filtered_params)
+      filter_data(request, filtered_params) do |data, param|
+        data.gsub!(%r{<(#{param})>(.*?)</#{param}>}, '<\1>[FILTERED]</\1>')
+      end
+    end
+
+    def filter_data(data, *filtered_params)
+      data = data.dup
+      filtered_params.flatten.each do |param|
+        yield(data, param)
+      end
+      data
+    end
+
     def submit_request(request_type, *args)
       parse_response(@connection.post(prepare_request_data(request_type, *args)))
     end
