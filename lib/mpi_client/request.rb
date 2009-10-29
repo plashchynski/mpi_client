@@ -6,6 +6,10 @@ module MPIClient
       @connection = Network::Connection.new(MPIClient.server_url)
     end
 
+    def logger=(logger)
+      @connection.logger = logger
+    end
+
     def method_missing(method, *args)
       submit_request(method, *args) if CLIENT_METHODS.include?(method.to_s)
     end

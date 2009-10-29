@@ -64,4 +64,13 @@ describe "MPIClient" do
     result.error_code.should    == 'C2'
     result.errors.should == {:base => 'Format XML-request is not valid'}
   end
+
+  describe "logger=" do
+    it "should set logger" do
+      client, logger = mock, mock
+      Network::Connection.stub(:new).and_return(client)
+      client.should_receive(:logger=).with(logger)
+      client.logger = logger
+    end
+  end
 end
