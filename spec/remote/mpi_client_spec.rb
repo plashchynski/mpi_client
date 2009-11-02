@@ -4,7 +4,7 @@ MPI_SERVER_URL = 'http://192.168.65.11/xml'
 
 describe "MPIClient requests" do
   before(:each) do
-    @mpi_client = Request.new
+    @mpi_client = AccountManagement::Request.new
   end
 
   it "should create account, update, get_info and delete" do
