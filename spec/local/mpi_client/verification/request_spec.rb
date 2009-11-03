@@ -37,9 +37,10 @@ describe "Verification::Request" do
 
   describe "post" do
     it "should post data with connection" do
+      connection = mock
       MPIClient.stub!(:server_url => 'http://mpi-url/')
-      Network.should_receive(:post).with('http://mpi-url/', 'xml request')
-
+      @request.stub!(:connection).and_return(connection)
+      connection.should_receive(:post).with('xml request')
       @request.send(:post, 'xml request')
     end
   end

@@ -74,23 +74,4 @@ describe "AccountManagement::Request" do
     connection.should_receive(:response_filter=)
     AccountManagement::Request.new
   end
-
-  describe "filter_xml_data" do
-    it "should replace fields in XML" do
-      xml = <<-XML
-        <xml>
-          <user>secret</user>
-          <password>password</password>
-          <data>not secret</data>
-        </xml>
-      XML
-
-      xml = @client.send(:filter_xml_data, xml, :user, :password)
-
-
-      xml.should =~ /<user>\[FILTERED\]<\/user>/
-      xml.should =~ /<password>\[FILTERED\]<\/password>/
-      xml.should =~ /<data>not secret<\/data>/
-    end
-  end
 end

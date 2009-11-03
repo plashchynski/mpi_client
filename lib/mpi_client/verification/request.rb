@@ -1,6 +1,6 @@
 module MPIClient
   module Verification
-    class Request
+    class Request < MPIClient::BaseRequest
       PARAMS_MAP = {
         'AccountId'       => :account_id,
         'Amount'          => :amount,     #in cents
@@ -14,11 +14,13 @@ module MPIClient
       }
 
       REQUEST_TYPE = 'vereq'
+      FILTERED_FIELDS = %w(Password)
 
       attr_reader :options, :transaction_id
 
       def initialize(options, transaction_id)
         @options, @transaction_id = options, transaction_id
+        super()
       end
 
       def process
@@ -27,7 +29,7 @@ module MPIClient
 
       private
       def post(xml_request)
-        Network.post(MPIClient.server_url, xml_request)
+        connection.post(xml_request)
       end
 
       def build_xml
