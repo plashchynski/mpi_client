@@ -8,6 +8,23 @@ describe "Verification::Response" do
   before(:each) do
     @response = Verification::Response.new('')
   end
+  
+  context 'xml contain sucessful response with status "N"' do
+    before(:each) do
+      @response.stub!(:xml => <<-XML)
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response type="vereq">
+            <Transaction id="33557" status="N">
+            </Transaction>
+        </Response>
+        XML
+      @response.parse
+    end
+
+    it "should not be successful if xml does not contain Error item" do
+      @response.should_not be_successful
+    end
+  end
 
   context 'xml contain sucessful response' do
     before(:each) do

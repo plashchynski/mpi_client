@@ -8,7 +8,7 @@ module MPIClient
       end
 
       def successful?
-        !(error_message || error_code)
+        !(error_message || error_code || status != 'Y')
       end
 
       def parse
